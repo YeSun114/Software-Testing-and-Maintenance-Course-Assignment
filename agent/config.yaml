@@ -1,0 +1,67 @@
+﻿# Nezha 根因分析配置文件
+
+# 数据源
+prometheus:
+  # Prometheus 地址（集群内使用 service name，集群外使用 NodePort）
+  url: "http://127.0.0.1:30090"
+  # 或集群内: "http://prometheus.monitoring:9090"
+
+jaeger:
+  url: "http://127.0.0.1:16686"
+
+# 故障注入时间段
+# 格式: YYYY-MM-DDTHH:MM:SS (UTC)
+fault_injection:
+  fault_free_start:    "2026-06-09T12:00:00"
+  fault_free_end:      "2026-06-09T12:05:00"
+  fault_suffering_start: "2026-06-09T12:10:00"
+  fault_suffering_end:   "2026-06-09T12:15:00"
+
+# 目标服务与命名空间
+target:
+  namespace: "hipster"
+  services:
+    # 原始 10 个微服务
+    - frontend
+    - cartservice
+    - productcatalogservice
+    - currencyservice
+    - paymentservice
+    - shippingservice
+    - emailservice
+    - checkoutservice
+    - recommendationservice
+    - adservice
+    # 队友新增 5 个微服务（第三档）
+    - vip-discount-service
+    - comment-service
+    - image-show-service
+    - coupon-service
+    - order-history-service
+
+# gSpan 频繁子图挖掘参数
+gspan:
+  min_support: 0.3       # 最小支持度 (0.0~1.0)
+
+# 模式排序器参数
+ranker:
+  score_min: 0.6         # 最低分数阈值
+  top_k: 5               # 返回 Top-K 根因
+
+# 数据存储路径
+paths:
+  data_dir: "./data"
+  output_dir: "./output/results"
+  fault_free_dir: "./data/fault_free"
+  fault_suffering_dir: "./data/fault_suffering"
+
+# 多模态数据采集参数
+collector:
+  metrics_interval: 15   # Prometheus 采集间隔 (秒)
+  trace_limit: 100       # Jaeger 每次查询最大 trace 数
+  log_lines: 500         # kubectl logs 每次获取行数
+
+
+
+
+

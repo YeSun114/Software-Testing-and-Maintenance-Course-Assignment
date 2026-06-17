@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-history-service
+  namespace: hipster
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-history-service
+  template:
+    metadata:
+      labels:
+        app: order-history-service
+    spec:
+      containers:
+      - name: server
+        image: order-history-service:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-history-service
+  namespace: hipster
+spec:
+  type: ClusterIP
+  selector:
+    app: order-history-service
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080

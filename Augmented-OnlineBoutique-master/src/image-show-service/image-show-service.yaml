@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: image-show-service
+  namespace: hipster
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: image-show-service
+  template:
+    metadata:
+      labels:
+        app: image-show-service
+    spec:
+      containers:
+      - name: server
+        image: image-show-service:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: image-show-service
+  namespace: hipster
+spec:
+  type: ClusterIP
+  selector:
+    app: image-show-service
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080

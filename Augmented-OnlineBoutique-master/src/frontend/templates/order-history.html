@@ -1,0 +1,83 @@
+<!--
+ Copyright 2020 Google LLC
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+{{ define "order-history" }}
+    {{ template "header" . }}
+    <div {{ with $.platform_css }} class="{{.}}" {{ end }}>
+        <span class="platform-flag">
+          {{$.platform_name}}
+        </span>
+      </div>
+    <main role="main" class="order-history">
+        <div class="py-5">
+            <div class="container py-3 px-lg-5 py-lg-5">
+                <h3>My Orders</h3>
+                <hr>
+
+                {{ if $.orders }}
+                    {{ range $.orders }}
+                    <div class="card mb-4">
+                        <div class="card-header d-flex justify-content-between align-items-center" style="background: #f0f4f8;">
+                            <div>
+                                <strong>Order #{{ .OrderID }}</strong>
+                            </div>
+                            <small class="text-muted">{{ .CreatedAt }}</small>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h6>Items:</h6>
+                                    <ul class="list-group list-group-flush mb-3">
+                                        <li class="list-group-item d-flex justify-content-between px-0" style="font-weight:bold;">
+                                            <span>Name / Qty</span>
+                                            <span>Price</span>
+                                        </li>
+                                        {{ range .Items }}
+                                        <li class="list-group-item d-flex align-items-center px-0">
+                                            {{ if .Picture }}
+                                            <img src="{{ .Picture }}" alt="{{ .ProductName }}" style="width:50px; height:50px; object-fit:cover; margin-right:10px; border-radius:4px;" />
+                                            {{ end }}
+                                            <span>{{ .ProductName }} x{{ .Quantity }}</span>
+                                        </li>
+                                        {{ end }}
+                                    </ul>
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <p class="my-1">Shipping: <strong>{{ .ShippingCost }}</strong></p>
+                                    <p class="my-1">Total Paid: <strong>{{ .TotalPaid }}</strong></p>
+                                    {{ if .DiscountSaved }}
+                                    <p class="my-1 text-success">Discount Saved: <strong>-{{ .DiscountSaved }}</strong></p>
+                                    {{ end }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{ end }}
+                {{ else }}
+                    <div class="text-center py-5">
+                        <p class="text-muted">No orders yet. Start shopping!</p>
+                        <a class="btn btn-info" href="/" role="button">Browse Products &rarr;</a>
+                    </div>
+                {{ end }}
+
+                <div class="text-center mt-4">
+                    <a class="btn btn-info" href="/" role="button">Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    {{ template "footer" . }}
+{{ end }}

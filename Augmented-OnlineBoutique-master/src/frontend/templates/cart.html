@@ -1,0 +1,204 @@
+<!--
+ Copyright 2020 Google LLC
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+{{ define "cart" }}
+    {{ template "header" . }}
+    <div {{ with $.platform_css }} class="{{.}}" {{ end }}>
+        <span class="platform-flag">
+          {{$.platform_name}}
+        </span>
+      </div>
+    <main role="main" class="cart">
+        <div class="cart-bg">
+            <div class="container py-3 px-lg-5 py-lg-5">
+                {{ if eq (len $.items) 0 }}
+                    <h3>Your shopping cart is empty!</h3>
+                    <p>Items you add to your shopping cart will appear here.</p>
+                    <a class="btn btn-info" href="/" role="button">Browse Products &rarr; </a>
+                {{ else }}
+                    <div class="row mb-3 py-2">
+                        <div class="col">
+                            <h3>{{ $.cart_size }} item{{ if gt $.cart_size 1 }}s{{ end }} in your cart</h3>
+                        </div>
+                        <div class="col text-right">
+                            <form method="POST" action="/cart/empty">
+                                <button class="btn btn-secondary empty-btn" type="submit">Empty cart</button>
+                                <a class="btn btn-info" href="/" role="button">Keep browsing</a>
+                            </form>
+                        </div>
+                    </div>
+
+                    {{ range $.items }}
+                    <div class="product-item">
+                        <div class="row pt-2 mb-2">
+                            <div class="col text-right image">
+                                <a href="/product/{{.Item.Id}}">
+                                    <img class="img-fluid" alt="" src="{{.Item.Picture}}" />
+                                </a>
+                            </div>
+                            <div class="col text-left text">
+                                <h4>{{ .Item.Name }}</h4>
+                                <p><small class="text-muted">SKU: #{{ .Item.Id }}</small></p>
+                                <div class="details">
+                                    Quantity: {{ .Quantity }}<br/>
+                                    <strong>{{ renderMoney .Price }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{ end }}
+
+                    <div class="row pt-2 my-3">
+                        <div class="col text-center order-summary">
+                            <p class="text-muted my-0">Shipping Cost: <strong>{{ renderMoney .shipping_cost }}</strong></p>
+                            <p class="my-0">Original Total: <strong>{{ renderMoney .total_cost }}</strong></p>
+                            <p class="my-0 text-success">VIP Discount (10% off): <strong>-{{ renderMoney .discount_amount }}</strong></p>
+                            <p class="my-0" style="font-size: 1.2em;">VIP Price: <strong style="color: #d9534f;">{{ renderMoney .vip_discounted }}</strong></p>
+                            {{ if .coupon_code }}
+                            <p class="my-0 text-success">Coupon Discount ({{.coupon_desc}}): <strong>-{{ renderMoney .coupon_discount }}</strong></p>
+                            <p class="my-0" style="font-size: 1.3em;">Final Price: <strong style="color: #28a745;">{{ renderMoney .final_price }}</strong></p>
+                            {{ end }}
+                        </div>
+                    </div>
+
+                    {{ if .coupon_list }}
+                    <div class="row py-3 my-2 coupon-section">
+                        <div class="col-12 col-lg-6 offset-lg-3 text-center">
+                            <form method="GET" action="/cart" class="form-inline justify-content-center">
+                                <select name="coupon" class="form-control mr-2" style="width:220px;">
+                                    <option value="">-- Select a coupon --</option>
+                                    {{ range .coupon_list }}
+                                    <option value="{{.Code}}">{{.Code}} — {{.Desc}}</option>
+                                    {{ end }}
+                                </select>
+                                <button type="submit" class="btn btn-outline-info">Apply</button>
+                            </form>
+                            {{ if .coupon_code }}
+                            <div class="mt-2">
+                                <span class="text-success">Coupon <strong>{{.coupon_code}}</strong> ({{.coupon_desc}}): -{{ renderMoney .coupon_discount }}</span>
+                            </div>
+                            {{ end }}
+                        </div>
+                    </div>
+                    {{ end }}
+
+                    <div class="row py-3 my-2 checkout">
+                        <div class="col-12 col-lg-8 offset-lg-2">
+                            <h3 class="text-center">Checkout</h3>
+                            <form action="/cart/checkout" method="POST">
+                                <div class="form-row">
+                                    <div class="col-md-5 mb-3">
+                                        <label for="email">E-mail Address</label>
+                                        <input type="email" class="form-control" id="email" name="email" value="someone@example.com" required>
+                                    </div>
+                                    <div class="col-md-5 mb-3">
+                                        <label for="street_address">Street Address</label>
+                                        <input type="text" class="form-control" name="street_address" id="street_address" value="1600 Amphitheatre Parkway" required>
+                                    </div>
+                                    <div class="col-md-2 mb-3">
+                                        <label for="zip_code">Zip Code</label>
+                                        <input type="text" class="form-control" name="zip_code" id="zip_code" value="94043" required pattern="\d{4,5}">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-5 mb-3">
+                                        <label for="city">City</label>
+                                        <input type="text" class="form-control" name="city" id="city" value="Mountain View" required>
+                                    </div>
+                                    <div class="col-md-2 mb-3">
+                                        <label for="state">State</label>
+                                        <input type="text" class="form-control" name="state" id="state" value="CA" required>
+                                    </div>
+                                    <div class="col-md-5 mb-3">
+                                        <label for="country">Country</label>
+                                        <input type="text" class="form-control" id="country" placeholder="Country Name" name="country" value="United States" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="credit_card_number">Credit Card Number</label>
+                                        <input type="text" class="form-control" id="credit_card_number" name="credit_card_number" placeholder="0000-0000-0000-0000" value="4432-8015-6152-0454" required pattern="\d{4}-\d{4}-\d{4}-\d{4}">
+                                    </div>
+                                    <div class="col-md-2 mb-3">
+                                        <label for="credit_card_expiration_month">Month</label>
+                                        <select name="credit_card_expiration_month" id="credit_card_expiration_month" class="form-control">
+                                            <option value="1">January</option>
+                                            <option value="2">February</option>
+                                            <option value="3">March</option>
+                                            <option value="4">April</option>
+                                            <option value="5">May</option>
+                                            <option value="6">June</option>
+                                            <option value="7">July</option>
+                                            <option value="8">August</option>
+                                            <option value="9">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">January</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 mb-3">
+                                        <label for="credit_card_expiration_year">Year</label>
+                                        <select name="credit_card_expiration_year" id="credit_card_expiration_year" class="form-control">
+                                            {{ range $i, $y := $.expiration_years }}
+                                            <option value="{{$y}}" {{ if eq $i 1 }}selected="selected"{{ end }}>{{$y}}</option>
+                                            {{ end }}
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 mb-3">
+                                        <label for="credit_card_cvv">CVV</label>
+                                        <input type="password" class="form-control" id="credit_card_cvv" name="credit_card_cvv" value="672" required pattern="\d{3}">
+                                    </div>
+                                </div>
+                                <div class="form-row center-contents last-row">
+                                    <button class="btn btn-info" id="checkout-btn" type="submit">Place order</button>
+                                </div>
+                            </form>
+
+                            {{ if .has_promo_image }}
+                            <div id="promoOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999; justify-content:center; align-items:center;">
+                                <div style="background:#fff; border-radius:12px; max-width:500px; width:90%; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.3);">
+                                    <div style="padding:16px 20px; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center;">
+                                        <h5 style="margin:0;">Special Offer!</h5>
+                                        <button onclick="document.getElementById('promoOverlay').style.display='none'" style="border:none; background:none; font-size:24px; cursor:pointer; line-height:1;">&times;</button>
+                                    </div>
+                                    <div style="padding:20px; text-align:center;">
+                                        <img src="/promo-image" alt="Promo" style="max-width:100%; max-height:350px;" />
+                                    </div>
+                                    <div style="padding:12px 20px; border-top:1px solid #eee; text-align:right;">
+                                        <button onclick="document.getElementById('promoOverlay').style.display='none'" style="margin-right:8px; padding:8px 20px; border:1px solid #ccc; border-radius:6px; background:#f8f9fa; cursor:pointer;">Cancel</button>
+                                        <button onclick="submitCheckout()" style="padding:8px 20px; border:none; border-radius:6px; background:#17a2b8; color:#fff; cursor:pointer;">Confirm Order</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <script>
+                            var checkoutForm = document.querySelector('form[action="/cart/checkout"]');
+                            var overlay = document.getElementById('promoOverlay');
+                            function showPromo() { overlay.style.display = 'flex'; }
+                            function submitCheckout() { overlay.style.display = 'none'; checkoutForm.submit(); }
+                            checkoutForm.addEventListener('submit', function(e) { e.preventDefault(); showPromo(); });
+                            </script>
+                            {{ end }}
+                        </div>
+                    </div>
+                {{ end }}
+            </div>
+            {{ if $.recommendations }}
+                {{ template "recommendations" $.recommendations }}
+            {{ end }}
+        </div>
+    </main>
+    {{ template "footer" . }}
+{{ end }}
