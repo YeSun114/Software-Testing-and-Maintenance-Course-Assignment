@@ -1,11 +1,11 @@
-﻿"""监控 Prometheus 告警，异常时触发智能体诊断"""
+﻿﻿"""监控 Prometheus 告警，异常时触发智能体诊断"""
 
 import os, sys, time, json
 from datetime import datetime
 from typing import Optional, Dict, List, Tuple
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from aiops_agent import (
+from nezha.agent.aiops_agent import (
     AIOpsAgent,
     _http_get,
     PROMETHEUS_URL,
