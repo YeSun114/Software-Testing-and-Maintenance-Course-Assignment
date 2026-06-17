@@ -1,0 +1,17 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: StressChaos
+metadata:
+  name: user-cpu-stress
+  namespace: sock-shop
+spec:
+  mode: one
+  selector:
+    namespaces:
+      - sock-shop
+    labelSelectors:
+      name: user
+  stressors:
+    cpu:
+      workers: 1
+      load: 80
+  duration: "5m"

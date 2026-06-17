@@ -1,0 +1,75 @@
+# Course reports and private assignment materials
+/ppp/
+/request/
+
+# Agent instructions and local agent configuration
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+CODEX.md
+COPILOT.md
+.agents/
+.claude/
+.codex/
+.gemini/
+
+# Experiment outputs and runtime artifacts
+/output/
+logs/
+lightning_logs/
+wandb/
+checkpoints/
+*.ckpt
+*.pt
+*.pth
+*.onnx
+events.out.tfevents.*
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.hypothesis/
+.tox/
+.nox/
+
+# Python environments and package artifacts
+.venv/
+venv/
+env/
+ENV/
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.local
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Temporary files
+*.log
+*.tmp
+*.temp
+*.bak
+*.orig

@@ -1,0 +1,108 @@
+{
+  "id": "79544338-4427-40c3-be0a-4ddfc70a277d",
+  "version": "2.0",
+  "name": "test",
+  "url": "http://127.0.0.1:55167",
+  "tests": [{
+    "id": "0c61aa62-ed43-4069-be0c-4410bf3a6c1f",
+    "name": "test",
+    "commands": [{
+      "id": "595d2daf-612f-4493-ae05-328c5d4568a4",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "9b94e653-e0ec-4e08-ba3d-b4e3c689293b",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1512x870",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "96c3336b-f28a-4bf2-832a-e63f4b223d7b",
+      "comment": "",
+      "command": "mouseDown",
+      "target": "css=.owl-item:nth-child(1) .front .img-responsive",
+      "targets": [
+        ["css=.owl-item:nth-child(1) .front .img-responsive", "css:finder"],
+        ["xpath=//div[@id='hot-slider']/div/div/div/div/div/div/div/div/a/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div/div/div/div/div/div/div/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d4236914-d31c-4d57-b3df-857d3f3effc4",
+      "comment": "",
+      "command": "mouseUp",
+      "target": "css=.owl-item:nth-child(1) .back .img-responsive",
+      "targets": [
+        ["css=.owl-item:nth-child(1) .back .img-responsive", "css:finder"],
+        ["xpath=//div[@id='hot-slider']/div/div/div/div/div/div/div/div[2]/a/img", "xpath:idRelative"],
+        ["xpath=//div[2]/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "79e51f1a-6113-4f5e-a970-e9132f6d33ea",
+      "comment": "",
+      "command": "click",
+      "target": "css=.owl-item:nth-child(1) .flipper",
+      "targets": [
+        ["css=.owl-item:nth-child(1) .flipper", "css:finder"],
+        ["xpath=//div[@id='hot-slider']/div/div/div/div/div/div/div", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div/div/div/div/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c682d8a6-32e2-4669-9088-4e2ce399acd5",
+      "comment": "",
+      "command": "click",
+      "target": "css=.owl-item:nth-child(1) .back .img-responsive",
+      "targets": [
+        ["css=.owl-item:nth-child(1) .back .img-responsive", "css:finder"],
+        ["xpath=//div[@id='hot-slider']/div/div/div/div/div/div/div/div[2]/a/img", "xpath:idRelative"],
+        ["xpath=//div[2]/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c56bdcf7-d1eb-4782-9eba-78c00432aa63",
+      "comment": "",
+      "command": "click",
+      "target": "id=buttonCart",
+      "targets": [
+        ["id=buttonCart", "id"],
+        ["css=#buttonCart", "css:finder"],
+        ["xpath=//a[contains(text(),'Add to\n                                    cart')]", "xpath:link"],
+        ["xpath=//a[@id='buttonCart']", "xpath:attributes"],
+        ["xpath=//div[@id='productMain']/div[2]/div/p[3]/a", "xpath:idRelative"],
+        ["xpath=//p[3]/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "223c2467-0024-425a-b7f8-f5b72e60578e",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Add to wishlist",
+      "targets": [
+        ["linkText=Add to wishlist", "linkText"],
+        ["css=.btn-default:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Add to wishlist')]", "xpath:link"],
+        ["xpath=//div[@id='productMain']/div[2]/div/p[3]/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, 'basket.html')]", "xpath:href"],
+        ["xpath=//p[3]/a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,' Add to wishlist')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "a3541c5d-715a-4d2f-bada-5ac91bdb4e84",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["0c61aa62-ed43-4069-be0c-4410bf3a6c1f"]
+  }],
+  "urls": ["http://127.0.0.1:55167/"],
+  "plugins": []
+}

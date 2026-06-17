@@ -11,9 +11,3 @@ build/
 *.swp
 *.swo
 *~
-
-# Nezha 算法运行时数据
-algorithm/Nezha-main/construct_data/*
-!algorithm/Nezha-main/construct_data/.gitkeep
-algorithm/Nezha-main/rca_data/*
-!algorithm/Nezha-main/rca_data/.gitkeep
